@@ -21,7 +21,7 @@
 1. Склонируйте репозиторий:
 
     ```
-    git clone https://github.com/username/caesar-cipher.git
+    git clone https://github.com/Vought24/caesar-cipher.git
     ```
 
 2. Убедитесь, что у вас установлен Python 3.x.
