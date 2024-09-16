@@ -7,7 +7,7 @@ import string
 root = Tk()
 root.title('Шифр Цезаря')
 root.geometry('600x600')
-root.iconbitmap(default=r"B:\Projects\PYTHON\icon.ico")
+root.iconbitmap(default="icon.ico")
 root.resizable(False, False)
 
 label = Label(text='Зашифровать сообщение!', font=('Arial', 13))
@@ -121,7 +121,7 @@ copy_btn = ttk.Button(text='Скопировать текст', command=copy)
 
 # Кнопка шифровать
 
-photo = PhotoImage(file=r"B:\Projects\PYTHON\but.png")
+photo = PhotoImage(file="but.png")
 shifr_btn = ttk.Button(text='Зашифровать!', command=cryption, underline=0, image=photo, cursor='hand2')
 shifr_btn.place(x=200, y=330)
 
