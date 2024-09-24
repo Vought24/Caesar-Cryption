@@ -7,7 +7,7 @@ import string
 root = Tk()
 root.title('Шифр Цезаря')
 root.geometry('600x600')
-root.iconbitmap(default="icon.ico")
+root.iconbitmap(default=r"B:\Projects\PYTHON\icon.ico")
 root.resizable(False, False)
 
 label = Label(text='Зашифровать сообщение!', font=('Arial', 13))
@@ -35,8 +35,12 @@ def cryption():
         else:
             result += char
     
-    result_label.config(text=f'Результат: {result.upper()}')
+    result_only.config(text=result.upper())
+    result_label.config(text='Результат:')
     copy_btn.place(x=50, y=450)
+
+result_only = Label(text='', font=('Arial', 13))
+result_only.place(x=120, y=420)
 
 
 
@@ -44,9 +48,9 @@ def cryption():
 #  TO FIX!!!!
 #05.09.2024 21:3 -- FIXED
 def copy():
-    result_text = result_label.cget("text")
-    #Поставил индекс с 11 символа чтобы не копировалось в буфер слово "Результат"
-    pc.copy(result_text[10:])
+    result_text = result_only.cget("text")
+    pc.copy(result_text)
+
 
 def copy_dec(result_label_dec):
     result_text_dec = result_label_dec.cget("text")
@@ -58,7 +62,7 @@ def paste_text(entry_widget):
     entry_widget.insert(0, pc.paste())
 
 def validate_char_lang(sentence):
-    allowed_chars = string.ascii_letters + string.punctuation + ' '    #знаки препинания и пробел
+    allowed_chars = string.ascii_letters + string.punctuation + ' ' + alphabet_RU.lower() + alphabet_RU   #знаки препинания и пробел, поддержка валидации русской раскладки
     if all(char in allowed_chars for char in sentence):
         return True
     return False
@@ -121,7 +125,7 @@ copy_btn = ttk.Button(text='Скопировать текст', command=copy)
 
 # Кнопка шифровать
 
-photo = PhotoImage(file="but.png")
+photo = PhotoImage(file=r"B:\Projects\PYTHON\but.png")
 shifr_btn = ttk.Button(text='Зашифровать!', command=cryption, underline=0, image=photo, cursor='hand2')
 shifr_btn.place(x=200, y=330)
 
@@ -135,10 +139,11 @@ def decryption_in_new_window(step_entry_dec, user_text_entry_dec, language_dec, 
     selected_lang = language_dec.get()
     
     step_value = step_entry_dec.get()
-    if step_value.isdigit():
+    try:
         step = int(step_value)
-    else:
-        step = 0  # Если шаг не указан
+    except ValueError:
+        result_label_dec.config(text='Ошибка: введите корректный шаг шифра!')
+        return
     
     user_text = user_text_entry_dec.get().upper()
 
@@ -197,12 +202,8 @@ def new_window():
     result_label_dec.place(x=30, y=420)
 
     # Кнопка для расшифровки
-    decrypt_btn_dec = ttk.Button(window, 
-                                 text='Расшифровать!', 
-                                 command=lambda: decryption_in_new_window(step_entry_dec,
-                                                                          user_text_entry_dec, 
-                                                                          language_dec, 
-                                                                          result_label_dec),
+    decrypt_btn_dec = ttk.Button(window, text='Расшифровать!', 
+                                 command=lambda: decryption_in_new_window(step_entry_dec, user_text_entry_dec, language_dec, result_label_dec),
                                  cursor='hand2')
     decrypt_btn_dec.place(x=200, y=330)
     paste_btn_dec = ttk.Button(window, text='Вставить', 
